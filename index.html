@@ -8,7 +8,11 @@
     <script src="https://js.leapmotion.com/leap-plugins-0.1.6.1.js"></script>
     <script src="https://js.leapmotion.com/leap.rigged-hand-0.1.4.min.js"></script>
     <script type="text/javascript" src="lib/jquery-3.1.1.min.js"></script>
-    <script src='https://cdn.rawgit.com/admsev/jquery-play-sound/master/jquery.playSound.js'></script>+
+    <script src='https://cdn.rawgit.com/admsev/jquery-play-sound/master/jquery.playSound.js'></script>
+
+    <!--Carousel Navigation Framework-->
+    <link rel="stylesheet" type="text/css" href="css/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="css/slick-theme.css"/>
 
     <link rel="stylesheet" href="css/style.css">
 
@@ -16,12 +20,7 @@
 
 
 
-
-
 <body>
-
-
-
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
 <script>
@@ -40,7 +39,6 @@
         };
 
         annyang.setLanguage('de-DE');
-
         // Add our commands to annyang
         annyang.addCommands(commands);
 
@@ -48,14 +46,17 @@
         annyang.start();
     }
 </script>
+
 <audio loop id="sound">
     <source src="data/06_Californication.mp3" type="audio/mpeg">
 </audio>
+
 <div id=output></div>
 <div id=output2></div>
 <div id=progress></div>
-<div id="test"></div>
+
 <!--<div id="bigBar"></div>-->
+
 
 <div id="site-container">
 
@@ -70,12 +71,11 @@
 
 </div>
 
-
 <div id=bg></div>
 
-
-
-</body>
 <script src="js/main.js"></script>
+<script type="text/javascript" src="js/slick.min.js"></script>
+</body>
+
 
 </html>

@@ -37,31 +37,21 @@ var timer;
 var ausgabe;
 
 
+var controllerTest = Leap.loop(function (frame) {
 
-
-var controllerTest = Leap.loop(function(frame){
-
-    output.innerHTML = 'distance:' + Math.round(distance) ;
-    output2.innerHTML = 'width:' + Math.round(saveMainValue) ;
-
-
-
+    output.innerHTML = 'distance:' + Math.round(distance);
+    output2.innerHTML = 'width:' + Math.round(saveMainValue);
 
     if (HandIn && soundIn) {
         $.playSound("data/txting_press_b");
         soundIn = false;
     }
-    else if (!HandIn && !soundIn){
+    else if (!HandIn && !soundIn) {
         $.playSound("data/txting_press_a");
         soundIn = true;
     }
-
     HandIn = false;
-
-
 });
-
-
 
 
 var tapped = false,
@@ -76,15 +66,15 @@ Leap.loop({background: true}, {
         posthumb = hand.fingers[0].dipPosition[0];
 
         // defi. Finger
-        thumbStart = new Vector(hand.fingers[0].dipPosition[0],hand.fingers[0].dipPosition[1],hand.fingers[0].dipPosition[2]);
-        thumbMid = new Vector(hand.fingers[0].pipPosition[0],hand.fingers[0].pipPosition[1],hand.fingers[0].pipPosition[2]);
-        indexStart = new Vector(hand.fingers[1].dipPosition[0],hand.fingers[1].dipPosition[1],hand.fingers[1].dipPosition[2]);
-        indexMid = new Vector(hand.fingers[1].pipPosition[0],hand.fingers[1].pipPosition[1],hand.fingers[1].pipPosition[2]);
-        indexEnd = new Vector(hand.fingers[1].mcpPosition[0],hand.fingers[1].mcpPosition[1],hand.fingers[1].mcpPosition[2]);
+        thumbStart = new Vector(hand.fingers[0].dipPosition[0], hand.fingers[0].dipPosition[1], hand.fingers[0].dipPosition[2]);
+        thumbMid = new Vector(hand.fingers[0].pipPosition[0], hand.fingers[0].pipPosition[1], hand.fingers[0].pipPosition[2]);
+        indexStart = new Vector(hand.fingers[1].dipPosition[0], hand.fingers[1].dipPosition[1], hand.fingers[1].dipPosition[2]);
+        indexMid = new Vector(hand.fingers[1].pipPosition[0], hand.fingers[1].pipPosition[1], hand.fingers[1].pipPosition[2]);
+        indexEnd = new Vector(hand.fingers[1].mcpPosition[0], hand.fingers[1].mcpPosition[1], hand.fingers[1].mcpPosition[2]);
 
         // TAP Back -----------------------------------------------------------------------------------
 
-        var abstandThumbIndexToIndexMCP = vectorBetweenPoints(thumbMid,indexStart).length();
+        var abstandThumbIndexToIndexMCP = vectorBetweenPoints(thumbMid, indexStart).length();
         console.log(abstandThumbIndexToIndexMCP);
 
         // Tappen
@@ -95,29 +85,24 @@ Leap.loop({background: true}, {
         }
 
 
-
-
-
-
         // TAP -----------------------------------------------------------------------------------
 
 
-
         // Adistance from thumb to indexMid
-        var verbindungsvektor = vectorBetweenPoints(thumbStart,indexMid);
+        var verbindungsvektor = vectorBetweenPoints(thumbStart, indexMid);
         var abstand0zu1 = verbindungsvektor.length();
 
 
         // Adistance from thumb to indexStart
-        var abstandThumbIndex = vectorBetweenPoints(thumbStart,indexStart).length();
+        var abstandThumbIndex = vectorBetweenPoints(thumbStart, indexStart).length();
 
         // Tappen
         if (abstandThumbIndex < 35 && trackMovement == false) {
             console.log('TAP-Left');
             clearTimeout(tapTimeout);
-            tapTimeout = setTimeout(function(){
+            tapTimeout = setTimeout(function () {
 
-                playMusic( tapped );
+                playMusic(tapped);
 
                 tapped = !tapped;
             }, 50);
@@ -126,12 +111,11 @@ Leap.loop({background: true}, {
         }
 
 
-
         // Slide -----------------------------------------------------------------------------------
 
 
-        vectorBetweenIndexStart = vectorBetweenPoints(indexStart,indexEnd);
-        lineindex = new Line(indexStart,vectorBetweenIndexStart);
+        vectorBetweenIndexStart = vectorBetweenPoints(indexStart, indexEnd);
+        lineindex = new Line(indexStart, vectorBetweenIndexStart);
 
         distance = lineindex.distanceFromPoint(thumbStart);
 
@@ -139,7 +123,7 @@ Leap.loop({background: true}, {
         var multiplier = 5;
 
         //enter tracking
-        if(distance < threshold && trackMovement == false){
+        if (distance < threshold && trackMovement == false) {
             trackMovement = true;
             posEnter = thumbStart;
 
@@ -149,40 +133,40 @@ Leap.loop({background: true}, {
 
 
         //tracking
-        if(distance < threshold && trackMovement == true ) {
+        if (distance < threshold && trackMovement == true) {
 
-                // timer = setTimeout(function(){ active = true}, 2000);
+            // timer = setTimeout(function(){ active = true}, 2000);
 
-                //
-                // if(active) {
+            //
+            // if(active) {
 
-                console.log('SLIDE');
-                diffVector = vectorBetweenPoints(posEnter, thumbStart);
-                var diffLength = diffVector.length();
+            console.log('SLIDE');
+            diffVector = vectorBetweenPoints(posEnter, thumbStart);
+            var diffLength = diffVector.length();
 
-                diffVector = vectorBetweenPoints(thumbStart, indexStart);
-                var newDistance = diffVector.length();
+            diffVector = vectorBetweenPoints(thumbStart, indexStart);
+            var newDistance = diffVector.length();
 
-                if (newDistance > firstDistance) {
-                    saveMainValue = mainValue + diffLength * multiplier;
-                }
-                else {
-                    saveMainValue = mainValue - diffLength * multiplier;
-                }
+            if (newDistance > firstDistance) {
+                saveMainValue = mainValue + diffLength * multiplier;
+            }
+            else {
+                saveMainValue = mainValue - diffLength * multiplier;
+            }
 
-                // $("#bigBar").width(saveMainValue);
-                // $("#bigBar").css('backgroundColor','green');
-                $('#output').css('font-weight', 'bold');
+            // $("#bigBar").width(saveMainValue);
+            // $("#bigBar").css('backgroundColor','green');
+            $('#output').css('font-weight', 'bold');
 
-                color = Math.round(map(saveMainValue, -20, 1200, 0, 255));
+            color = Math.round(map(saveMainValue, -20, 1200, 0, 255));
 
-                var r = color;
+            var r = color;
 
-                var b = 130;
+            var b = 130;
 
-                background.style.backgroundColor = rgbToHex(r, g, b);
+            background.style.backgroundColor = rgbToHex(r, g, b);
 
-                ausgabe = Math.round(saveMainValue / 150);
+            ausgabe = Math.round(saveMainValue / 150);
             //}
         }
 
@@ -193,7 +177,7 @@ Leap.loop({background: true}, {
 
 
         //exit tracking
-        if(distance >= threshold && trackMovement == true){
+        if (distance >= threshold && trackMovement == true) {
             trackMovement = false;
             mainValue = saveMainValue;
             aktion = false;
@@ -201,7 +185,6 @@ Leap.loop({background: true}, {
             $('#output').css('font-weight', 'normal');
             // console.log("exit");
         }
-
 
 
         if (ausgabe == 1) {
@@ -235,12 +218,7 @@ Leap.loop({background: true}, {
     }
 
 
-
-
-
 });
-
-
 
 
 // Allow usage of pints
@@ -257,36 +235,36 @@ function Vector(x, y, z) {
 }
 
 // Add two vectors
-Vector.prototype.add = function(vector) {
+Vector.prototype.add = function (vector) {
     var vx = this.x + vector.x;
     var vy = this.y + vector.y;
     var vz = this.z + vector.z;
-    return new Vector(vx,vy,vz);
+    return new Vector(vx, vy, vz);
 }
 
-Vector.prototype.length = function() {
+Vector.prototype.length = function () {
     return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
 }
 
-Vector.prototype.subtract = function(vector) {
+Vector.prototype.subtract = function (vector) {
     var vx = this.x - vector.x;
     var vy = this.y - vector.y;
     var vz = this.z - vector.z;
-    return new Vector(vx,vy,vz);
+    return new Vector(vx, vy, vz);
 }
 
-Vector.prototype.multiply = function(vector) {
+Vector.prototype.multiply = function (vector) {
     var vx = this.x * vector.x;
     var vy = this.y * vector.y;
     var vz = this.z * vector.z;
-    return new Vector(vx,vy,vz);
+    return new Vector(vx, vy, vz);
 }
 
-Vector.prototype.divide = function(vector) {
+Vector.prototype.divide = function (vector) {
     var vx = this.x / vector.x;
     var vy = this.y / vector.y;
     var vz = this.z / vector.z;
-    return new Vector(vx,vy,vz);
+    return new Vector(vx, vy, vz);
 }
 
 Vector.prototype.crossProduct = function (vector) {
@@ -302,23 +280,23 @@ function Line(a, b) {
     this.richtungsvektor = b || 0;
 }
 
-Line.prototype.distanceFromPoint = function(p) {
+Line.prototype.distanceFromPoint = function (p) {
     var pointMinusStuetzvektor = p.subtract(this.stuetzvektor);
     var naechsterSchritt = pointMinusStuetzvektor.crossProduct(this.richtungsvektor);
     var lengthieren = naechsterSchritt.length();
     var untereHaelfte = this.richtungsvektor.length();
 
-    return lengthieren/untereHaelfte;
+    return lengthieren / untereHaelfte;
 };
 
 
-function playMusic( flag ){
-    if(flag){
+function playMusic(flag) {
+    if (flag) {
         $sound[0].play();
         soundIn2 = true;
         tap = 2;
     }
-    else{
+    else {
         soundIn2 = true;
         // stop sound
         tap = 1;
@@ -332,11 +310,11 @@ function playMusic( flag ){
 
 ////////////////////////////////////////
 
-function vectorBetweenPoints(a,b) {
-   var vx = a.x - b.x;
-   var vy = a.y - b.y;
-   var vz = a.z - b.z;
-    return new Vector(vx,vy,vz);
+function vectorBetweenPoints(a, b) {
+    var vx = a.x - b.x;
+    var vy = a.y - b.y;
+    var vz = a.z - b.z;
+    return new Vector(vx, vy, vz);
 }
 
 function map(value, f1, t1, f2, t2) {
