@@ -1,0 +1,81 @@
+
+
+<html>
+<head>
+    <title>Pinch Strength Position Demo</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r67/three.js"></script>
+    <script src="https://js.leapmotion.com/leap-0.6.2.js"></script>
+    <script src="https://js.leapmotion.com/leap-plugins-0.1.6.1.js"></script>
+    <script src="https://js.leapmotion.com/leap.rigged-hand-0.1.4.min.js"></script>
+    <script type="text/javascript" src="lib/jquery-3.1.1.min.js"></script>
+    <script src='https://cdn.rawgit.com/admsev/jquery-play-sound/master/jquery.playSound.js'></script>+
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+
+
+
+
+<body>
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
+<script>
+//    var sound = document.getElementById("sound");
+//    sound.volume = 0;
+
+    if (annyang) {
+        // Let's define our first command. First the text we expect, and then the function it should call
+        var commands = {
+            'spiele Musik': function() {
+                console.log('Whoooop Music!');
+                $.playSound("data/06_Californication");
+
+                playMusic ( true );
+            }
+        };
+
+        annyang.setLanguage('de-DE');
+
+        // Add our commands to annyang
+        annyang.addCommands(commands);
+
+        // Start listening. You can call this here, or attach this call to an event, button, etc.
+        annyang.start();
+    }
+</script>
+<audio loop id="sound">
+    <source src="data/06_Californication.mp3" type="audio/mpeg">
+</audio>
+<div id=output></div>
+<div id=output2></div>
+<div id=progress></div>
+<div id="test"></div>
+<!--<div id="bigBar"></div>-->
+
+<div id="site-container">
+
+    <div id="netflix" class="size active"></div>
+    <div id="amazon"  class="size"></div>
+    <div id="maxdome" class="size"></div>
+
+    <div id="saul" class="size"></div>
+
+
+    <div class="clear"></div>
+
+</div>
+
+
+<div id=bg></div>
+
+
+
+</body>
+<script src="js/main.js"></script>
+
+</html>
