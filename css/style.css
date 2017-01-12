@@ -8,71 +8,27 @@ header,section,footer,aside,nav,article,figure { display: block; }
     clear: both;
 }
 
-
-#site-container {
-    width: 100%;
-    max-width: 1350px;
-    margin: 0 auto;
-    margin-top: 150px;
-}
-
-.size {
-    width: 25vw;
-    height: 400px;
-    float: left;
-    margin: 20px;
-    opacity: 0.5;
-}
-
-#netflix {
-    background-image: url("netflix.png");
-    background-size: cover;
-}
-
-.active {
-    opacity: 1;
-}
-
-#amazon {
-    background-image: url("amazon.jpg");
-    background-size: cover;
-}
-
-#maxdome {
-    background-image: url("maxdome.png");
-    background-size: cover;
-}
-
-#saul {
-    background-image: url("saul.jpg");
-    background-size: cover;
-}
-
-
 body {
-    font-family: 'Courier New', Helvetica, Arial, 'Lucida Grande', sans-serif;
+    background-color: #0f0f0f;
+    overflow: hidden;
     margin: 0;
-}
-
-
-#output {
-    font-size: 80px;
+    font-family: "DIN Pro";
+    font-size: 20px;
     color: #666;
     text-align: left;
+    font-weight: 100;
+}
+
+#output {
     position: fixed;
     bottom: 18px;
     left: 18px;
-    font-weight: ;
-
 }
+
 #output2 {
-    font-size: 80px;
-    color: #666;
-    text-align: left;
     position: fixed;
     bottom: 18px;
-    left: 800px;
-
+    left: 150px;
 }
 
 #progress {
@@ -84,12 +40,30 @@ body {
     width: 0%;
 }
 
-#bg {
-    background-color: #FFF;
-    opacity: 1;
-    width: 100%;
-    height: 100%;
+/*--------------------------------------------------------------------------------------------*/
+
+#logo {
+    margin: 40px;
+    height: 10vh;
+    width: 20vw;
 }
+
+
+.nav {
+    margin-top: 200px;
+}
+
+.content {
+    height: 30vh;
+    margin: 10px;
+    transition: all 0.5s ease;
+}
+
+.slick-current {
+    height: 35vh !important;
+}
+
+/*--------------------------------------------------------------------------------------------*/
 
 img#connect-leap {
     /* this can be removed with leapjs-plugins 0.1.4.1 */

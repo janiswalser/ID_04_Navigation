@@ -34,12 +34,26 @@ var tap = 1;
 var aktion = false;
 var active = false;
 var timer;
-var ausgabe;
+var ausgabe = 2;
+var ausgabeOld = 0;
+
+
+$(document).ready(function (e) {
+
+    $('.nav').slick({
+        centerMode: true,
+        centerPadding: '60px',
+        slidesToShow: 3,
+        arrows: true,
+        focusOnSelect: true,
+    });
+
+});
 
 
 var controllerTest = Leap.loop(function (frame) {
 
-    output.innerHTML = 'distance:' + Math.round(distance);
+    output.innerHTML = 'distance: ' + Math.round(distance);
     output2.innerHTML = 'width:' + Math.round(saveMainValue);
 
     if (HandIn && soundIn) {
@@ -58,6 +72,8 @@ var tapped = false,
     tapTimeout = null;
 
 
+
+// LOOP Funktion  -----------------------------------------------------------------------------------
 Leap.loop({background: true}, {
 
     hand: function (hand) {
@@ -75,13 +91,11 @@ Leap.loop({background: true}, {
         // TAP Back -----------------------------------------------------------------------------------
 
         var abstandThumbIndexToIndexMCP = vectorBetweenPoints(thumbMid, indexStart).length();
-        console.log(abstandThumbIndexToIndexMCP);
+        // console.log(abstandThumbIndexToIndexMCP);
 
         // Tappen
         if (abstandThumbIndexToIndexMCP > 70 && trackMovement == false) {
-            console.log('TAP-Right');
-
-
+            // console.log('TAP-Right');
         }
 
 
@@ -119,7 +133,7 @@ Leap.loop({background: true}, {
 
         distance = lineindex.distanceFromPoint(thumbStart);
 
-        var threshold = 28;
+        var threshold = 30;
         var multiplier = 5;
 
         //enter tracking
@@ -136,11 +150,11 @@ Leap.loop({background: true}, {
         if (distance < threshold && trackMovement == true) {
 
             // timer = setTimeout(function(){ active = true}, 2000);
-
-            //
+            
+            
             // if(active) {
 
-            console.log('SLIDE');
+            // console.log('SLIDE');
             diffVector = vectorBetweenPoints(posEnter, thumbStart);
             var diffLength = diffVector.length();
 
@@ -164,8 +178,6 @@ Leap.loop({background: true}, {
 
             var b = 130;
 
-            background.style.backgroundColor = rgbToHex(r, g, b);
-
             ausgabe = Math.round(saveMainValue / 150);
             //}
         }
@@ -186,39 +198,24 @@ Leap.loop({background: true}, {
             // console.log("exit");
         }
 
+        if (ausgabe > ausgabeOld) {
 
-        if (ausgabe == 1) {
-            $("#netflix").addClass("active");
-            $("#amazon").removeClass("active");
-            $("#maxdome").removeClass("active");
+            $('.nav').slick("slickNext");
+            ausgabeOld = ausgabe;
 
-        }
-
-        if (ausgabe == 2) {
-            $("#netflix").removeClass("active");
-            $("#amazon").addClass("active");
-            $("#maxdome").removeClass("active");
-        }
-
-        if (ausgabe == 3) {
-            $("#netflix").removeClass("active");
-            $("#amazon").removeClass("active");
-            $("#maxdome").addClass("active");
+            console.log(ausgabe);
+            console.log(ausgabeOld);
         }
 
 
-        if (tap == 2) {
-            $("#netflix").removeClass("active");
-            $("#amazon").removeClass("active");
-            $("#maxdome").removeClass("active");
-            $("#saul").addClass("active");
-        }
 
 
     }
-
-
 });
+
+
+
+
 
 
 // Allow usage of pints

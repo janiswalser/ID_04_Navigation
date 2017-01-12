@@ -1,5 +1,3 @@
-
-
 <html>
 <head>
     <title>Pinch Strength Position Demo</title>
@@ -8,6 +6,8 @@
     <script src="https://js.leapmotion.com/leap-plugins-0.1.6.1.js"></script>
     <script src="https://js.leapmotion.com/leap.rigged-hand-0.1.4.min.js"></script>
     <script type="text/javascript" src="lib/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
     <script src='https://cdn.rawgit.com/admsev/jquery-play-sound/master/jquery.playSound.js'></script>
 
     <!--Carousel Navigation Framework-->
@@ -19,22 +19,21 @@
 </head>
 
 
-
 <body>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
 <script>
-//    var sound = document.getElementById("sound");
-//    sound.volume = 0;
+    //    var sound = document.getElementById("sound");
+    //    sound.volume = 0;
 
     if (annyang) {
         // Let's define our first command. First the text we expect, and then the function it should call
         var commands = {
-            'spiele Musik': function() {
+            'spiele Musik': function () {
                 console.log('Whoooop Music!');
                 $.playSound("data/06_Californication");
 
-                playMusic ( true );
+                playMusic(true);
             }
         };
 
@@ -47,9 +46,9 @@
     }
 </script>
 
-<audio loop id="sound">
-    <source src="data/06_Californication.mp3" type="audio/mpeg">
-</audio>
+<!--<audio loop id="sound">-->
+<!--<source src="data/06_Californication.mp3" type="audio/mpeg">-->
+<!--</audio>-->
 
 <div id=output></div>
 <div id=output2></div>
@@ -57,24 +56,26 @@
 
 <!--<div id="bigBar"></div>-->
 
+<div id="logo" style="background: url(img/Netflix_2014_logo.png); background-size: cover;"></div>
 
-<div id="site-container">
-
-    <div id="netflix" class="size active"></div>
-    <div id="amazon"  class="size"></div>
-    <div id="maxdome" class="size"></div>
-
-    <div id="saul" class="size"></div>
-
-
-    <div class="clear"></div>
-
+<div class="nav">
+    <div class="content" id="narcos" style="background: url(img/narcos.jpg) center; background-size: cover;"></div>
+    <div class="content" id="suits" style="background: url(img/suits.jpg) center; background-size: cover;"></div>
+    <div class="content" id="saul" style="background: url(img/saul.jpg) center; background-size: cover;"></div>
+    <div class="content" id="cards" style="background: url(img/cards.jpg) center; background-size: cover;"></div>
+    <div class="content" id="marco" style="background: url(img/marco.jpg) center; background-size: cover;"></div>
+    <div class="content" id="bad" style="background: url(img/bad.jpg) center; background-size: cover;"></div>
+    <div class="content" id="dead" style="background: url(img/dead.jpeg) center; background-size: cover;"></div>
+    <div class="content" id="fargo" style="background: url(img/fargo.jpg) center; background-size: cover;"></div>
+    <div class="content" id="orange" style="background: url(img/orange.jpg) center; background-size: cover;"></div>
+    <div class="content" id="game" style="background: url(img/game.jpg) center; background-size: cover;"></div>
 </div>
+
 
 <div id=bg></div>
 
 <script src="js/main.js"></script>
-<script type="text/javascript" src="js/slick.min.js"></script>
+<script type="text/javascript" src="js/slick.js"></script>
 </body>
 
 
