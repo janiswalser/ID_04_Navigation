@@ -44,24 +44,38 @@ body {
 
 #logo {
     margin: 40px;
-    height: 10vh;
-    width: 20vw;
+    height: 100px;
+    width: 370px;
 }
 
 
 .nav {
-    margin-top: 200px;
+}
+.nav2 {
+    opacity: 0;
 }
 
 .content {
     height: 30vh;
+    opacity: 0.7;
     margin: 10px;
+    margin-top: 250px;
+    transition: all 0.5s ease;
+}
+
+.content2 {
+    height: 10vh;
+    opacity: 0.7;
+    margin: 10px;
+    margin-top: 50px;
     transition: all 0.5s ease;
 }
 
 .slick-current {
     height: 35vh !important;
+    opacity: 1;
 }
+
 
 /*--------------------------------------------------------------------------------------------*/
 

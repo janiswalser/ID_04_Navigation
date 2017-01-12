@@ -34,7 +34,7 @@ var tap = 1;
 var aktion = false;
 var active = false;
 var timer;
-var ausgabe = 0;
+var ausgabe = 2;
 var ausgabeOld = 0;
 
 var row = 1;
@@ -110,7 +110,7 @@ Leap.loop({background: true}, {
 
         // Tappen
         if (abstandThumbIndexToIndexMCP > 70 && trackMovement == false) {
-            console.log('TAP-Right');
+            // console.log('TAP-Right');
         }
 
 
@@ -187,10 +187,8 @@ Leap.loop({background: true}, {
 
             var b = 130;
 
-            ausgabe = Math.round(saveMainValue / 30);
+            ausgabe = Math.round(saveMainValue / 60);
             //}
-
-
         }
 
         // else {
@@ -214,33 +212,36 @@ Leap.loop({background: true}, {
         if (row == 2) {
             $('.nav2').css("opacity", "1");
         }
-
-        // Slide Row 1
+        
+        // Slide Row 1 - Right
         if (ausgabe > ausgabeOld && row == 1) {
 
             $('.nav').slick("slickPrev");
-            ausgabeOld = ausgabe;
+            ausgabeOld = ausgabeOld + 1;
 
+            console.log(ausgabe);
+            console.log(ausgabeOld);
         }
-        // else if (ausgabe < ausgabeOld && row == 1) {
-        //
-        //     $('.nav').slick("slickNext");
-        //     ausgabeOld = ausgabe;
-        // }
+
+        // Slide Row 1 - Left
+        if (ausgabe < ausgabeOld && row == 1) {
+
+            $('.nav').slick("slickNext");
+            ausgabeOld = ausgabeOld - 1;
+
+            console.log(ausgabe);
+            // console.log(ausgabeOld);
+        }
 
         // Slide Row 2
         if (ausgabe > ausgabeOld && row == 2) {
 
             $('.nav2').slick("slickPrev");
             ausgabeOld = ausgabe;
-            
-        }
-        // else if (ausgabe < ausgabeOld && row == 2) {
-        //
-        //     $('.nav2').slick("slickNext");
-        //     ausgabeOld = ausgabe;
-        // }
 
+            console.log(ausgabe);
+            // console.log(ausgabeOld);
+        }
 
         // Tap-Left Row 1
         if (tappedLeft && row == 1) {
