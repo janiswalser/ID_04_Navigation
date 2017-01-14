@@ -37,7 +37,11 @@ var timer;
 var ausgabe = 0;
 var ausgabeOld = 0;
 
+
+// Variablen für Navigation
 var row = 1;
+var left = false,
+    right = false;
 
 
 $(document).ready(function () {
@@ -163,7 +167,7 @@ Leap.loop({background: true}, {
             
             // if(active) {
 
-            // console.log('SLIDE');
+            console.log('SLIDE');
             diffVector = vectorBetweenPoints(posEnter, thumbStart);
             var diffLength = diffVector.length();
 
@@ -177,8 +181,7 @@ Leap.loop({background: true}, {
                 saveMainValue = mainValue - diffLength * multiplier;
             }
 
-            // $("#bigBar").width(saveMainValue);
-            // $("#bigBar").css('backgroundColor','green');
+
             $('#output').css('font-weight', 'bold');
 
             color = Math.round(map(saveMainValue, -20, 1200, 0, 255));
@@ -188,15 +191,33 @@ Leap.loop({background: true}, {
             var b = 130;
 
             ausgabe = Math.round(saveMainValue / 30);
-            //}
+
+            if (ausgabe > ausgabeOld) {
+                left = true;
+            } else if (ausgabe < ausgabeOld) {
+                right = true;
+            } else {
+                right = false;
+                left = false;
+            }
+
+            // Slide Row 1
+            if (left) {
+                $('.nav').slick("slickPrev");
+                ausgabe = ausgabeOld;
+                console.log("SwipeLeft")
+            }
+
+            // Slide Row 2
+            if (right) {
+                $('.nav').slick("slickNext");
+                ausgabe = ausgabeOld;
+                console.log("SwipeRight")
+
+            }
 
 
         }
-
-        // else {
-        //     clearTimeout(timer);
-        //         active = false;
-        // }
 
 
         //exit tracking
@@ -215,13 +236,8 @@ Leap.loop({background: true}, {
             $('.nav2').css("opacity", "1");
         }
 
-        // Slide Row 1
-        if (ausgabe > ausgabeOld && row == 1) {
 
-            $('.nav').slick("slickPrev");
-            ausgabeOld = ausgabe;
 
-        }
         // else if (ausgabe < ausgabeOld && row == 1) {
         //
         //     $('.nav').slick("slickNext");
