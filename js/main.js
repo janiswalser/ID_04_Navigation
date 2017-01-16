@@ -18,7 +18,7 @@ var background = document.getElementById("bg");
 var $sound = $('#sound');
 
 var posthumb;
-var thumbStart, thumbMid, indexStart, indexEnd, indexMid;
+var thumbStart, thumbMid, indexStart, indexEnd, indexMid, indexTip;
 var vectorBetweenIndexStart;
 var mainValue = 100;
 var trackMovement = false;
@@ -34,12 +34,14 @@ var tap = 1;
 var aktion = false;
 var active = false;
 var timer;
-var ausgabe = 0;
-var ausgabeOld = 0;
+
+
 
 
 // Variablen für Navigation
 var row = 1;
+var nav,
+    navOld = 0;
 var left = false,
     right = false;
 
@@ -98,7 +100,7 @@ Leap.loop({background: true}, {
 
 
 
-        posthumb = hand.fingers[0].dipPosition[0];
+        posthumb = hand.fingers[1].dipPosition[0];
 
         // defi. Finger
         thumbStart = new Vector(hand.fingers[0].dipPosition[0], hand.fingers[0].dipPosition[1], hand.fingers[0].dipPosition[2]);
@@ -106,15 +108,18 @@ Leap.loop({background: true}, {
         indexStart = new Vector(hand.fingers[1].dipPosition[0], hand.fingers[1].dipPosition[1], hand.fingers[1].dipPosition[2]);
         indexMid = new Vector(hand.fingers[1].pipPosition[0], hand.fingers[1].pipPosition[1], hand.fingers[1].pipPosition[2]);
         indexEnd = new Vector(hand.fingers[1].mcpPosition[0], hand.fingers[1].mcpPosition[1], hand.fingers[1].mcpPosition[2]);
-
+        indexTip = new Vector(hand.fingers[1].distal.nextJoint[0], hand.fingers[1].distal.nextJoint[1], hand.fingers[1].distal.nextJoint[2]);
+        // console.log(hand.fingers[0].distal.nextJoint);
         // TAP Back -----------------------------------------------------------------------------------
+
+
 
         var abstandThumbIndexToIndexMCP = vectorBetweenPoints(thumbMid, indexStart).length();
         // console.log(abstandThumbIndexToIndexMCP);
 
         // Tappen
-        if (abstandThumbIndexToIndexMCP > 70 && trackMovement == false) {
-            console.log('TAP-Right');
+        if (abstandThumbIndexToIndexMCP < 90 && trackMovement == false) {
+
         }
 
 
@@ -127,14 +132,16 @@ Leap.loop({background: true}, {
 
 
         // Adistance from thumb to indexStart
-        var abstandThumbIndex = vectorBetweenPoints(thumbStart, indexStart).length();
-
+        var abstandThumbIndex = vectorBetweenPoints(thumbStart, indexTip).length();
+        console.log(abstandThumbIndex);
         // TAP-Left
         if (abstandThumbIndex < 40 && trackMovement == false) {
-            console.log('TAP-Left');
             tappedLeft = true;
+            console.log(tappedLeft);
         } else {
             tappedLeft = false;
+            // console.log(tappedLeft);
+
         }
 
 
@@ -146,7 +153,7 @@ Leap.loop({background: true}, {
 
         distance = lineindex.distanceFromPoint(thumbStart);
 
-        var threshold = 30;
+        var threshold = 24;
         var multiplier = 5;
 
         //enter tracking
@@ -167,7 +174,6 @@ Leap.loop({background: true}, {
             
             // if(active) {
 
-            console.log('SLIDE');
             diffVector = vectorBetweenPoints(posEnter, thumbStart);
             var diffLength = diffVector.length();
 
@@ -190,73 +196,17 @@ Leap.loop({background: true}, {
 
             var b = 130;
 
-            ausgabe = Math.round(saveMainValue / 30);
 
-            if (ausgabe > ausgabeOld) {
-                left = true;
-            } else if (ausgabe < ausgabeOld) {
-                right = true;
-            } else {
-                right = false;
-                left = false;
-            }
 
-            // Slide Row 1
-            if (left) {
-                $('.nav').slick("slickPrev");
-                ausgabe = ausgabeOld;
-                console.log("SwipeLeft")
-            }
+            nav = Math.round(saveMainValue);
 
-            // Slide Row 2
-            if (right) {
-                $('.nav').slick("slickNext");
-                ausgabe = ausgabeOld;
-                console.log("SwipeRight")
 
-            }
+            console.log("nav" + nav);
+            console.log("navOld" + navOld);
+
 
 
         }
-
-
-        //exit tracking
-        if (distance >= threshold && trackMovement == true) {
-            trackMovement = false;
-            mainValue = saveMainValue;
-            aktion = false;
-
-            $('#output').css('font-weight', 'normal');
-            // console.log("exit");
-        }
-
-
-        // Show Row 2
-        if (row == 2) {
-            $('.nav2').css("opacity", "1");
-        }
-
-
-
-        // else if (ausgabe < ausgabeOld && row == 1) {
-        //
-        //     $('.nav').slick("slickNext");
-        //     ausgabeOld = ausgabe;
-        // }
-
-        // Slide Row 2
-        if (ausgabe > ausgabeOld && row == 2) {
-
-            $('.nav2').slick("slickPrev");
-            ausgabeOld = ausgabe;
-            
-        }
-        // else if (ausgabe < ausgabeOld && row == 2) {
-        //
-        //     $('.nav2').slick("slickNext");
-        //     ausgabeOld = ausgabe;
-        // }
-
 
         // Tap-Left Row 1
         if (tappedLeft && row == 1) {
@@ -277,6 +227,70 @@ Leap.loop({background: true}, {
             row = 2;
             console.log("row:" + row);
         }
+
+
+        //exit tracking
+        if (distance >= threshold && trackMovement == true) {
+            trackMovement = false;
+            mainValue = saveMainValue;
+            aktion = false;
+
+            $('#output').css('font-weight', 'normal');
+            // console.log("exit");
+
+            if (nav > navOld) {
+                left = true;
+                right = false;
+                navOld = nav;
+            } else if (nav < navOld) {
+                right = true;
+                left = false;
+                navOld = nav;
+            } else {
+                right = false;
+                left = false;
+                navOld = nav;
+            }
+
+            // Slide Left Row 1
+            if (left && row == 1) {
+                $('.nav').slick("slickPrev");
+                console.log("SwipeLeft");
+            }
+
+            // Slide Right Row 1
+            if (right && row == 1) {
+                $('.nav').slick("slickNext");
+                console.log("SwipeRight")
+            }
+
+            // Slide Left Row 2
+            if (left && row == 2) {
+                $('.nav2').slick("slickPrev");
+                console.log("SwipeLeft");
+            }
+        }
+
+
+        // Show Row 2
+        if (row == 2) {
+            $('.nav2').css("opacity", "1");
+        }
+
+
+
+        // else if (ausgabe < ausgabeOld && row == 1) {
+        //
+        //     $('.nav').slick("slickNext");
+        //     ausgabeOld = ausgabe;
+        // }
+
+
+        // else if (ausgabe < ausgabeOld && row == 2) {
+        //
+        //     $('.nav2').slick("slickNext");
+        //     ausgabeOld = ausgabe;
+        // }
 
     }
 });
